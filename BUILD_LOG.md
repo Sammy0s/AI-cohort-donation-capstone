@@ -33,14 +33,19 @@
 - Verification: Attempted a correct run through and a bunch of incorrect with bad inputs, empty states, to ensure nothing broke. After creating a few dates, checked the database to ensure logs are being stored
 - One thing I learned: Claude is faster. I have claude, so i can't waste time trying to do this on my own.
 
-5. Build the history command: 
+## Task 5: Build the history command: 
 - Brief: Add a history command that queries all donations and renders them as a formatted rich table in the terminal. Verify: Run python tracker.py history and confirm your logged donation appears in a clean, readable table.
-- What Claude proposed: [1-2 lines]
-- What I changed before approving: [1-2 lines]
-- Verification: [what you ran or clicked to confirm it works]
-- One thing I learned: ...
+- What Claude proposed: using rich to make easily readable table with all donations
+- What I changed before approving: Limits to size of inputs
+- Verification: added logs through log feature and then ran history to ensure table showed up with all donations available
+- One thing I learned: Think about limits- how far back should dates be allowed? How many donations should be allowed at a time?
 
-6. Calculate eligibility logic: Write a helper function in a logic.py file that takes the most recent donation date and returns the next eligible date (56 days for whole blood). Verify: Unit test it manually in a Python shell with a known date and confirm the output is exactly 56 days later.
+## Task 6: Calculate eligibility logic: 
+- Brief: Write a helper function in a logic.py file that takes the most recent donation date and returns the next eligible date (56 days for whole blood). Verify: Unit test it manually in a Python shell with a known date and confirm the output is exactly 56 days later.
+- What Claude proposed: Using date time to find next eligable date
+- What I changed before approving: ensuring no security or bad input vunerabilities exist
+- Verification: calling get_next_eligible_date gives me a date that's 56 days after the date I passed into the method
+- One thing I learned: Simple solutions are just as elegant
 
 7. Build the status command (eligibility): Add a status command that calls the eligibility helper and prints either "✅ You're eligible now!" or "⏳ Next eligible: [date]" using rich. Verify: Run python tracker.py status and confirm the date math is correct against your logged donation.
 
