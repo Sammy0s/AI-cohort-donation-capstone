@@ -21,10 +21,10 @@
 
 ## Task 3: Set up SQLite database and schema: 
 - Brief: Write a database.py that creates a donations table with columns id, date, location, blood_type, and pints on first run. Verify: Run python database.py and confirm the table exists using a quick sqlite3 shell query: .tables.
-- What Claude proposed: [1-2 lines]
-- What I changed before approving: [1-2 lines]
-- Verification: [what you ran or clicked to confirm it works]
-- One thing I learned: ...
+- What Claude proposed: Database creation in database.py 
+- What I changed before approving: Ensuring all table columns made sense for an app designed for one person at a time
+- Verification: sqlite3
+- One thing I learned: donations.db should only exist locally so needs to be in gitignore
 
 4. Build the log command: Add a log CLI command using typer that prompts for date, location, and blood type then inserts a row into the database. Verify: Run python tracker.py log, fill in the prompts, then check the DB with sqlite3 to confirm the row is there.
 
