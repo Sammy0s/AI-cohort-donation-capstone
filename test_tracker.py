@@ -1,7 +1,8 @@
 import pytest
 import sqlite3
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from database import init_db, get_connection
+from logic import get_next_eligible_date
 from validation import (
     validate_date,
     validate_blood_type,
@@ -244,3 +245,15 @@ def test_inserted_blood_type_is_uppercased():
     blood_type = cursor.fetchone()[0]
     conn.close()
     assert blood_type == blood_type.upper()
+
+# ─────────────────────────────────────────────
+# ELIGIBILITY LOGIC
+# ─────────────────────────────────────────────
+
+def test_next_eligible_date_is_56_days_later():
+    result = get_next_eligible_date("2026-05-29")
+    assert result == date(2026, 7, 24)
+
+def test_next_eligible_date_crosses_year_boundary():
+    result = get_next_eligible_date("2025-12-01")
+    assert result == date(2026, 1, 26)
