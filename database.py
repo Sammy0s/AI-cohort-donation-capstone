@@ -20,6 +20,16 @@ def init_db():
     conn.commit()
     conn.close()
 
+def get_history():
+    conn = get_connection()
+    conn.row_factory = sqlite3.Row
+    cursor = conn.execute(
+        "SELECT id, date, location, blood_type, pints FROM donations ORDER BY date DESC"
+    )
+    rows = [dict(row) for row in cursor.fetchall()]
+    conn.close()
+    return rows
+
 if __name__ == "__main__":
     init_db()
     print("Database initialized successfully!")

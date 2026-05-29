@@ -1,8 +1,10 @@
 import typer
 from rich.console import Console
+from rich.markup import escape
 from rich.panel import Panel
+from rich.table import Table
 from datetime import datetime, date
-from database import init_db, get_connection
+from database import init_db, get_connection, get_history
 
 app = typer.Typer()
 console = Console()
@@ -90,7 +92,30 @@ def log():
 @app.command()
 def history():
     """Display all past donations."""
-    typer.echo("Donation history — coming soon!")
+    init_db()
+    rows = get_history()
+
+    if not rows:
+        console.print("[yellow]No donations logged yet. Run 'python tracker.py log' to add one.[/yellow]")
+        return
+
+    table = Table(title="Donation History", header_style="bold magenta")
+    table.add_column("ID", style="dim", width=4)
+    table.add_column("Date", width=12)
+    table.add_column("Location")
+    table.add_column("Blood Type", width=10)
+    table.add_column("Pints", width=6)
+
+    for row in rows:
+        table.add_row(
+            str(row["id"]),
+            row["date"],
+            escape(row["location"]) if row["location"] else "—",
+            row["blood_type"] or "—",
+            str(row["pints"]),
+        )
+
+    console.print(table)
 
 
 @app.command()
