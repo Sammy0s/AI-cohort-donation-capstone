@@ -1,4 +1,5 @@
 import typer
+from database import init_db, get_connection
 
 app = typer.Typer()
 
@@ -10,6 +11,14 @@ def log():
     pints = typer.prompt("How many pints did you donate?", default=1.0)
     # Okay I have all the info, now I need to save it to the database
     # Handle different error cases here too
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO donations (date, location, blood_type, pints) VALUES (?, ?, ?, ?)",
+            (date, location, blood_type, pints)
+        )
+
+    # Log the donation to the console
     typer.echo(f"Donation logged: {date}, {location}, {blood_type}, {pints} pints")
 
 @app.command()
