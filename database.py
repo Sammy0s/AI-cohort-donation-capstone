@@ -30,6 +30,20 @@ def get_history():
     conn.close()
     return rows
 
+def get_latest_donation_date() -> str | None:
+    conn = get_connection()
+    cursor = conn.execute("SELECT date FROM donations ORDER BY date DESC LIMIT 1")
+    row = cursor.fetchone()
+    conn.close()
+    return row[0] if row else None
+
+def get_total_pints() -> float:
+    conn = get_connection()
+    cursor = conn.execute("SELECT SUM(pints) FROM donations")
+    row = cursor.fetchone()
+    conn.close()
+    return row[0] if row[0] is not None else 0.0
+
 if __name__ == "__main__":
     init_db()
     print("Database initialized successfully!")

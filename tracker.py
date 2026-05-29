@@ -4,7 +4,8 @@ from rich.markup import escape
 from rich.panel import Panel
 from rich.table import Table
 from datetime import datetime, date
-from database import init_db, get_connection, get_history
+from database import init_db, get_connection, get_history, get_latest_donation_date, get_total_pints
+from logic import get_next_eligible_date, pints_to_gallons, get_lives_saved
 
 app = typer.Typer()
 console = Console()
@@ -62,6 +63,7 @@ def _prompt_pints() -> float:
 @app.command()
 def log():
     """Log a new blood donation."""
+    init_db()
     console.print("\n[bold cyan]Log a Donation[/bold cyan]")
 
     donation_date = _prompt_date()
@@ -121,7 +123,30 @@ def history():
 @app.command()
 def status():
     """Show eligibility and donation stats."""
-    typer.echo("Status — coming soon!")
+    init_db()
+    latest_date = get_latest_donation_date()
+
+    if not latest_date:
+        console.print("[yellow]No donations logged yet. Run 'python tracker.py log' to add one.[/yellow]")
+        return
+
+    total_pints = get_total_pints()
+    gallons = pints_to_gallons(total_pints)
+    lives = get_lives_saved(total_pints)
+    next_eligible = get_next_eligible_date(latest_date)
+    next_eligible_str = next_eligible.strftime("%B %d, %Y")
+
+    goal = 1.0
+    filled = min(int((gallons / goal) * 16), 16)
+    bar = "[bold red]" + "█" * filled + "[/bold red]" + "[dim]" + "░" * (16 - filled) + "[/dim]"
+
+    content = (
+        f"[bold]Next eligible:[/bold]   {next_eligible_str} ⏳\n"
+        f"[bold]Gallons donated:[/bold] {bar} {gallons:.3f} gal\n"
+        f"[bold]Lives saved:[/bold]     ~{lives}"
+    )
+
+    console.print(Panel(content, title="🩸 Blood Donation Status", border_style="red"))
 
 
 if __name__ == "__main__":
