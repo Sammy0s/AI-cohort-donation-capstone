@@ -26,14 +26,19 @@
 - Verification: sqlite3 donations.db ".tables" to give a list of existing tables (verified donations was in that list)
 - One thing I learned: donations.db should only exist locally so needs to be in gitignore
 
-4. Build the log command: 
+## Task 4: Build the log command: 
 - Brief: Add a log CLI command using typer that prompts for date, location, and blood type then inserts a row into the database. Verify: Run python tracker.py log, fill in the prompts, then check the DB with sqlite3 to confirm the row is there.
 - What Claude proposed: Suggested use of typer to handle CLI interactions between app and user
+- What I changed before approving: Making sure all edge cases would be covered. Used outside source to confrim
+- Verification: Attempted a correct run through and a bunch of incorrect with bad inputs, empty states, to ensure nothing broke. After creating a few dates, checked the database to ensure logs are being stored
+- One thing I learned: Claude is faster. I have claude, so i can't waste time trying to do this on my own.
+
+5. Build the history command: 
+- Brief: Add a history command that queries all donations and renders them as a formatted rich table in the terminal. Verify: Run python tracker.py history and confirm your logged donation appears in a clean, readable table.
+- What Claude proposed: [1-2 lines]
 - What I changed before approving: [1-2 lines]
 - Verification: [what you ran or clicked to confirm it works]
 - One thing I learned: ...
-
-5. Build the history command: Add a history command that queries all donations and renders them as a formatted rich table in the terminal. Verify: Run python tracker.py history and confirm your logged donation appears in a clean, readable table.
 
 6. Calculate eligibility logic: Write a helper function in a logic.py file that takes the most recent donation date and returns the next eligible date (56 days for whole blood). Verify: Unit test it manually in a Python shell with a known date and confirm the output is exactly 56 days later.
 
