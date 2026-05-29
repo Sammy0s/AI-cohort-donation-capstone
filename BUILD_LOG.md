@@ -56,3 +56,21 @@
 10. Polish the CLI (help text + error handling): Add typer help strings to every command and a graceful error message if the user runs status or history with no donations logged yet. Verify: Run python tracker.py --help and confirm all commands are described; run status on a fresh DB and confirm it doesn't crash.
 
 11. Final git commit and README: Write a short README.md with setup instructions and the three commands, then commit everything cleanly. Verify: A friend (or you, fresh eyes) could clone the repo and run the app in under 2 minutes following only the README.
+
+### AI Workflow
+Which tool you reached for in each lane (planning, executing, polishing, reviewing).
+- I used Claude chat especially for brainstorming, coming up with plans, and finding vunerabilities in code. Claude CLI was used primarily for executing code, and applying the designs and briefs to the current codebase and state. Claude code for planning and reviewing, claude cli for executing and polishing
+One moment one tool clearly outperformed another.
+- I felt like the chat version was a lot easier for me to brainstorm with. Claude chat wasn't constantly getting distracted by the code which allowed it to just focus on the design and planning first.
+One moment you switched tools mid-task because the first one was the wrong fit.
+- Claude CLI knows the code but Claude chat doesn't so sometimes I would write the plan with chat and then bring it to the cli to compare the plan to the current codebase and find any misunderstandings that occured due to the fact that claude chat just doesn't know the codebase.
+
+### Reflection:
+Where did the agentic workflow let you ship things you couldn't have shipped alone in 4 hours?
+- A lot of the execution could not have happened in this time without claude. I tried doing some of the execution myself but claude is able to compile and ship everything much faster than I could alone.
+Where did you have to step in and override Claude? What did you know that it didn't?
+- I stepped in espicially to address security issues and bad values. I wanted to make sure there were no gaps. I knew I didn't have to step in whenever claude made a plan or executed something and then immediately after I asked "So what did you miss? What could go wrong?" and claude ended up thinking for up to 5 minutes before I stopped it because there wasn't anything that was missed. One part where I redirected claude was with just a simple comment when creating the lives saved estimation about how pints can be stored with decimals so multiplying by 3 would give a decimal back so we needed to multiply and then truncate to get a better estimate.
+What did this project reveal about your own judgment and your own knowledge gaps? (This is the most important question. Spend the most words here.)
+- I feel like it really tested my conceptual knowledge a lot more than my syntax knowledge. I didn't necessairally have to master how the typer functions worked in the console, but I did have to understand how methods are structured and know what some common vunerabilities are, like SQL injection, so that I can catch them when claude doesn't. I really exercised my critical thinking by analyzing what claude was giving me and deciding what direction I wanted to go but in summary it was just a lot more higher level thinking versus the grunt work I'm usually used to.
+How will you bring this workflow into your internship? What's the first thing you'll do on day one?
+- Definiately gonna take a lot of these lessons with me, like understanding the foundation but letting AI do the heavy lifting of syntax and handling all the different edge cases. I can be a lot more efficient if I'm planning stuff and requesting stuff and letting AI do the tough work than if I tried doing it all myself. I'm going to go into my internship not just knowing how to build but how to orchestrate stuff.
